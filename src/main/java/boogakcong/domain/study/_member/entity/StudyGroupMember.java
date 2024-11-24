@@ -1,5 +1,6 @@
 package boogakcong.domain.study._member.entity;
 
+import boogakcong.domain.study.entity.StudyGroup;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,4 +26,7 @@ public class StudyGroupMember {
     @Column(nullable = false)
     private Long memberId;
 
+    @ManyToOne
+    @JoinColumn(name = "studyGroupId", insertable = false, updatable = false)
+    private StudyGroup studyGroup;
 }

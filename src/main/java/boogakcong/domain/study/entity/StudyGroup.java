@@ -1,6 +1,7 @@
 package boogakcong.domain.study.entity;
 
 import boogakcong.domain.member.entity.Member;
+import boogakcong.domain.study._member.entity.StudyGroupMember;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +12,7 @@ import org.hibernate.annotations.Comment;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -43,6 +45,10 @@ public class StudyGroup {
     @Column(nullable = false)
     private Integer maxMemberCount;
 
+    @Comment("스터디원")
+    @OneToMany(mappedBy = "studyGroup")
+    private List<StudyGroupMember> members;
+
     @Comment("스터디 날짜")
     @Column(nullable = false)
     private LocalDate studyDate;
@@ -54,4 +60,12 @@ public class StudyGroup {
     @Comment("스터디 생성 날짜")
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    public void addMember(StudyGroupMember studyGroupMember) {
+        members.add(studyGroupMember);
+    }
+
+    public void removeMember(StudyGroupMember studyGroupMember) {
+        members.remove(studyGroupMember);
+    }
 }
