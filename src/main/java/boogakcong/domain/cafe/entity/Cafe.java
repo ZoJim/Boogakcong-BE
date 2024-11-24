@@ -1,6 +1,7 @@
 package boogakcong.domain.cafe.entity;
 
 import boogakcong.domain.cafe.OperatingPattern;
+import boogakcong.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,10 @@ public class Cafe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "memberId")
+    private Member member;
 
     @Comment("카페명")
     @Column(nullable = false)
