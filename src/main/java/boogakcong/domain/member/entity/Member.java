@@ -21,9 +21,11 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private MemberRole role;
+
     @Comment("이메일")
     @Column(nullable = false)
     private String email;
+
     @Comment("패스워드")
     @Column(nullable = false)
     private String password;
