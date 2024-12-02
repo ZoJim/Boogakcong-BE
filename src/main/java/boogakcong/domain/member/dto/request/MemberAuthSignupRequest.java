@@ -1,5 +1,6 @@
 package boogakcong.domain.member.dto.request;
 
+import boogakcong.domain.member.MemberRole;
 import boogakcong.domain.member.entity.Member;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -24,6 +25,7 @@ public record MemberAuthSignupRequest(
                 .password(encodedPassword)
                 .name(name)
                 .phoneNumber(phoneNumber)
+                .role(MemberRole.ROLE_NORMAL_USER)
                 .build();
     }
 }
