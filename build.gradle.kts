@@ -24,15 +24,21 @@ repositories {
 }
 
 dependencies {
+  // Spring Boot
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-validation")
 
+  // Security
+  implementation("org.springframework.boot:spring-boot-starter-security")
+
+  // Lombok
   annotationProcessor("org.projectlombok:lombok")
   compileOnly("org.projectlombok:lombok")
 
+  // Database
   runtimeOnly("org.postgresql:postgresql")
-	
+
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

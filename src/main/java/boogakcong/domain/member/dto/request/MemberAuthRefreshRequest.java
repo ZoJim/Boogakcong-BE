@@ -1,4 +1,6 @@
 package boogakcong.domain.member.dto.request;
 
-public record MemberAuthRefreshRequest() {
+public record MemberAuthRefreshRequest(
+        String refreshToken
+) {
 }

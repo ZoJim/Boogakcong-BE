@@ -3,17 +3,20 @@ package boogakcong.domain.member.entity;
 import boogakcong.domain.member.MemberRole;
 import boogakcong.domain.member.dto.response.MemberResponse;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE member SET deleted_at = NOW() WHERE id = ?")
+@Where(clause = "deleted_at IS NULL")
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +40,9 @@ public class Member {
     @Comment("전화번호")
     @Column(nullable = false)
     private String phoneNumber;
+
+    @Comment("탈퇴 일시")
+    private LocalDateTime deletedAt;
 
     public MemberResponse fromEntity() {
         return MemberResponse.builder()
