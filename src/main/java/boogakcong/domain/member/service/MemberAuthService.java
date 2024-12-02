@@ -8,6 +8,7 @@ import boogakcong.domain.member.dto.response.TokenResponse;
 import boogakcong.domain.member.entity.Member;
 import boogakcong.global.exception.BusinessError;
 import boogakcong.global.exception.BusinessException;
+import boogakcong.global.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberAuthService {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider tokenProvider;
 
     @Transactional
     public Long signup(MemberAuthSignupRequest request) {
@@ -34,13 +36,20 @@ public class MemberAuthService {
         return member.getId();
     }
 
-    public Long login(MemberLoginRequest request) {
-        Member memberByEmail = memberService.getMemberByEmail(request.email());
-        if (!passwordEncoder.matches(request.password(), memberByEmail.getPassword())) {
+    public TokenResponse login(MemberLoginRequest request) {
+        Member member = memberService.getMemberByEmail(request.email());
+        if (!passwordEncoder.matches(request.password(), member.getPassword())) {
             throw new BusinessException(BusinessError.MEMBER_LOGIN_FAILED);
         }
 
-        return memberByEmail.getId();
+        return TokenResponse.builder()
+                .accessToken(tokenProvider.createToken(
+                                member.getName(),
+                                member.getId(),
+                                member.getRole().toString()
+                        )
+                )
+                .build();
     }
 
     public TokenResponse refresh(MemberAuthRefreshRequest request) {
