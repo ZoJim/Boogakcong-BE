@@ -33,4 +33,8 @@ public class MemberService {
     public Member getMemberByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(() -> new BusinessException(BusinessError.MEMBER_NOT_FOUND));
     }
+
+    public void updateMember(Member member) {
+        memberRepository.save(member);
+    }
 }

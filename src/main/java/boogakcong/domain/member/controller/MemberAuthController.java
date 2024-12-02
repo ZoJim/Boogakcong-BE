@@ -8,10 +8,7 @@ import boogakcong.domain.member.service.MemberAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -39,5 +36,10 @@ public class MemberAuthController {
     public ResponseEntity<?> logout(@RequestBody MemberAuthLogoutRequest request) {
         memberAuthService.logout(request);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/confirm-caffe-manager")
+    public ResponseEntity<?> confirmCaffeManager(@RequestParam Long memberId) {
+        return ResponseEntity.ok(memberAuthService.confirmCaffeManager(memberId));
     }
 }

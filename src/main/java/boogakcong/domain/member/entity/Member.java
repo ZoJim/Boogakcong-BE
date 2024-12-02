@@ -51,4 +51,8 @@ public class Member {
                 .email(email)
                 .build();
     }
+
+    public void confirmCaffeManager() {
+        this.role = MemberRole.ROLE_CAFFE_MANAGER;
+    }
 }

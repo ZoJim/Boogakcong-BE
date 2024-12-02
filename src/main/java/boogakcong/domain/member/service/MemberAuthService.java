@@ -26,6 +26,14 @@ public class MemberAuthService {
         return memberService.createMember(request.toEntity(passwordEncoder.encode(request.password())));
     }
 
+    @Transactional
+    public Long confirmCaffeManager(Long memberId) {
+        Member member = memberService.getMemberById(memberId);
+        member.confirmCaffeManager();
+        memberService.updateMember(member);
+        return member.getId();
+    }
+
     public Long login(MemberLoginRequest request) {
         Member memberByEmail = memberService.getMemberByEmail(request.email());
         if (!passwordEncoder.matches(request.password(), memberByEmail.getPassword())) {
