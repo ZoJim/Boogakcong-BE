@@ -20,8 +20,8 @@ public class MemberService {
         return memberRepository.findById(id).orElseThrow(() -> new BusinessException(BusinessError.MEMBER_NOT_FOUND));
     }
 
-    public Long createMember(Member member) {
-        return memberRepository.save(member).getId();
+    public Member createMember(Member member) {
+        return memberRepository.save(member);
     }
 
     public void validateDuplicateEmail(String email) {
