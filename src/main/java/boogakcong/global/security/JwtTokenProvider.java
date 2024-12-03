@@ -1,5 +1,6 @@
 package boogakcong.global.security;
 
+import boogakcong.domain.member.dto.response.TokenResponse;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,22 +15,28 @@ public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    @Value("${jwt.expiration}")
-    private long validityInMilliseconds;
+    private final static long ACCESS_TOKEN_VALIDITY_SECONDS = 5 * 60 * 60;
+    private final static long REFRESH_TOKEN_VALIDITY_SECONDS = 10 * 60 * 60;
 
-    // 토큰 생성
-    public String createToken(String username, Long userId, String role) {
+    public TokenResponse createTokenResponse(String username, Long userId, String role) {
+        return TokenResponse.builder()
+                .accessToken(createToken(username, userId, role, ACCESS_TOKEN_VALIDITY_SECONDS))
+                .refreshToken(createToken(username, userId, role, REFRESH_TOKEN_VALIDITY_SECONDS))
+                .build();
+
+    }
+
+    public String createToken(String username, Long userId, String role, Long period) {
         return Jwts.builder()
                 .setSubject(String.valueOf(userId))
-                .claim("roles", List.of(role)) // 권한 정보 추가
+                .claim("roles", List.of(role))
                 .claim("userName", username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + validityInMilliseconds))
+                .setExpiration(new Date(System.currentTimeMillis() + period * 1000))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
-    // 토큰에서 사용자 이름 추출
     public String getUsername(String token) {
         return Jwts.parser()
                 .setSigningKey(secretKey)
@@ -38,16 +45,14 @@ public class JwtTokenProvider {
                 .get("userName", String.class);
     }
 
-    // 토큰에서 역할 추출
     public String getRole(String token) {
         return ((List<String>) Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody()
-                .get("roles")).get(0); // roles에서 첫 번째 권한 추출
+                .get("roles")).get(0);
     }
 
-    // 토큰에서 유저 아이디 추출
     public String getUserId(String token) {
         return Jwts.parser()
                 .setSigningKey(secretKey)
@@ -56,7 +61,6 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    // 토큰 유효성 검증
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
@@ -65,6 +69,5 @@ public class JwtTokenProvider {
             return false;
         }
     }
-
 
 }

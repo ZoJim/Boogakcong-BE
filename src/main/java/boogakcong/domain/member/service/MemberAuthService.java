@@ -1,9 +1,8 @@
 package boogakcong.domain.member.service;
 
-import boogakcong.domain.member.dto.request.MemberAuthLogoutRequest;
 import boogakcong.domain.member.dto.request.MemberAuthRefreshRequest;
-import boogakcong.domain.member.dto.request.MemberLoginRequest;
 import boogakcong.domain.member.dto.request.MemberAuthSignupRequest;
+import boogakcong.domain.member.dto.request.MemberLoginRequest;
 import boogakcong.domain.member.dto.response.TokenResponse;
 import boogakcong.domain.member.entity.Member;
 import boogakcong.global.exception.BusinessError;
@@ -23,9 +22,10 @@ public class MemberAuthService {
     private final JwtTokenProvider tokenProvider;
 
     @Transactional
-    public Long signup(MemberAuthSignupRequest request) {
+    public TokenResponse signup(MemberAuthSignupRequest request) {
         memberService.validateDuplicateEmail(request.email());
-        return memberService.createMember(request.toEntity(passwordEncoder.encode(request.password())));
+        Member member = memberService.createMember(request.toEntity(passwordEncoder.encode(request.password())));
+        return tokenProvider.createTokenResponse(member.getEmail(), member.getId(), member.getRole().name());
     }
 
     @Transactional
@@ -42,22 +42,11 @@ public class MemberAuthService {
             throw new BusinessException(BusinessError.MEMBER_LOGIN_FAILED);
         }
 
-        return TokenResponse.builder()
-                .accessToken(tokenProvider.createToken(
-                                member.getName(),
-                                member.getId(),
-                                member.getRole().toString()
-                        )
-                )
-                .build();
+        return tokenProvider.createTokenResponse(member.getEmail(), member.getId(), member.getRole().name());
     }
 
     public TokenResponse refresh(MemberAuthRefreshRequest request) {
         return null;
-    }
-
-    public void logout(MemberAuthLogoutRequest request) {
-
     }
 }
 
