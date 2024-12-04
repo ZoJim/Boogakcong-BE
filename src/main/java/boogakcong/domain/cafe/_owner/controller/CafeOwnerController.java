@@ -35,7 +35,9 @@ public class CafeOwnerController {
     @Comment("카페 소유자 신청 조회")
     @Secured({"ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
     @GetMapping("/requests")
-    public ResponseEntity<List<CafeOwner>> getCafeOwnerRequests() {
+    public ResponseEntity<List<CafeOwner>> getCafeOwnerRequests(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
         return ResponseEntity.ok(cafeOwnerService.getCafeOwnerRequests());
     }
 
