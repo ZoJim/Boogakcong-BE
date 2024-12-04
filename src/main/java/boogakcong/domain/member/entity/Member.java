@@ -53,6 +53,6 @@ public class Member {
     }
 
     public void confirmCaffeManager() {
-        this.role = MemberRole.ROLE_CAFFE_MANAGER;
+        this.role = MemberRole.ROLE_CAFFE_OWNER;
     }
 }

@@ -10,14 +10,19 @@ import boogakcong.global.exception.BusinessError;
 import boogakcong.global.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CafeOwnerService {
     private final CafeOwnerRepository cafeOwnerRepository;
     private final MemberService memberService;
     private final CafeService cafeService;
 
+    @Transactional
     public void requestCafeOwner(Long userId, Long cafeId) {
         // 회원이 유효한가?
         Member member = memberService.getMemberById(userId);
@@ -41,6 +46,7 @@ public class CafeOwnerService {
         );
     }
 
+    @Transactional
     public void acceptCafeOwner(Long userId, Long cafeId, Boolean accept) {
         // 회원이 유효한가?
         Member member = memberService.getMemberById(userId);
@@ -66,5 +72,9 @@ public class CafeOwnerService {
         }
 
         cafeOwnerRepository.save(cafeOwner);
+    }
+
+    public List<CafeOwner> getCafeOwnerRequests() {
+        return cafeOwnerRepository.findAllByAllocationStatusOrderByCreatedAtDesc(CafeOwner.AllocationStatus.REQUESTED);
     }
 }

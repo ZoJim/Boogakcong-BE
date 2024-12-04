@@ -1,9 +1,6 @@
 package boogakcong.domain.cafe._owner.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DialectOverride;
@@ -34,6 +31,7 @@ public class CafeOwner {
 
     // 할당 상태 : 승인, 반려, 요청
     @Setter
+    @Enumerated(EnumType.STRING)
     private AllocationStatus allocationStatus;
 
     public enum AllocationStatus {
