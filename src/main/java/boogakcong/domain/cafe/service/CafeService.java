@@ -2,6 +2,8 @@ package boogakcong.domain.cafe.service;
 
 import boogakcong.domain.cafe.entity.Cafe;
 import boogakcong.domain.cafe.repository.CafeRepository;
+import boogakcong.global.exception.BusinessError;
+import boogakcong.global.exception.BusinessException;
 import boogakcong.global.util.KakaoMapResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CafeService {
     private final CafeRepository cafeRepository;
+
+    public Cafe getCafeById(Long cafeId) {
+        return cafeRepository.findById(cafeId)
+                .orElseThrow(() -> new BusinessException(BusinessError.CAFE_NOT_FOUND));
+    }
 
     // 도로명 주소와 이름을 기준으로 중복되지 않은 카페 필터링
     public List<KakaoMapResponse> filterNonExistingCafes(List<KakaoMapResponse> responses) {

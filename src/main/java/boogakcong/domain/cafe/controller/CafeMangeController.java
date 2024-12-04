@@ -1,16 +1,12 @@
 package boogakcong.domain.cafe.controller;
 
 import boogakcong.domain.cafe.service.CafeManageService;
-import boogakcong.global.util.KakaoMapResponse;
-import boogakcong.global.util.KakaoMapService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Comment("카페를 관리하는 컨트롤러")
 @RequestMapping("/api/cafes")
