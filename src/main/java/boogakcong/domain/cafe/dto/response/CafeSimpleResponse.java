@@ -22,3 +22,4 @@ public record CafeSimpleResponse(
                 .placeUrl(cafe.getPlaceUrl())
                 .build();
     }
+}
