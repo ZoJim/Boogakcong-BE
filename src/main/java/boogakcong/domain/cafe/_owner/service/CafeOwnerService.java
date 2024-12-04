@@ -40,4 +40,31 @@ public class CafeOwnerService {
                         .build()
         );
     }
+
+    public void acceptCafeOwner(Long userId, Long cafeId, Boolean accept) {
+        // 회원이 유효한가?
+        Member member = memberService.getMemberById(userId);
+
+        // 카페가 유효한가?
+        Cafe cafe = cafeService.getCafeById(cafeId);
+
+        // 카페 소유자가 존재하는가?
+        CafeOwner cafeOwner = cafeOwnerRepository
+                .findById(cafeId)
+                .orElseThrow(() -> new BusinessException(BusinessError.CAFE_OWNER_NOT_FOUND));
+
+        // 카페 소유자가 요청 상태인가?
+        if (cafeOwner.getAllocationStatus() != CafeOwner.AllocationStatus.REQUESTED) {
+            throw new BusinessException(BusinessError.CAFE_OWNER_NOT_REQUESTED);
+        }
+
+        // 카페 소유자 승인
+        if (accept) {
+            cafeOwner.setAllocationStatus(CafeOwner.AllocationStatus.APPROVED);
+        } else {
+            cafeOwner.setAllocationStatus(CafeOwner.AllocationStatus.REJECTED);
+        }
+
+        cafeOwnerRepository.save(cafeOwner);
+    }
 }

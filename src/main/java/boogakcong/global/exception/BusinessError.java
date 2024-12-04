@@ -16,6 +16,7 @@ public enum BusinessError {
     CAFE_NOT_FOUND(HttpStatus.NOT_FOUND, "카페를 찾을 수 없습니다."),
     CAFE_OWNER_NOT_FOUND(HttpStatus.NOT_FOUND, "카페 소유자를 찾을 수 없습니다."),
     CAFE_ALREADY_HAS_OWNER(HttpStatus.CONFLICT, "이미 소유자가 있는 카페입니다."),
+    CAFE_OWNER_NOT_REQUESTED(HttpStatus.BAD_REQUEST, "카페 소유자가 요청 상태가 아닙니다."),
 
     ;
 
