@@ -67,6 +67,7 @@ public class CafeOwnerService {
         // 카페 소유자 승인
         if (accept) {
             cafeOwner.setAllocationStatus(CafeOwner.AllocationStatus.APPROVED);
+            memberService.confirmCaffeManager(member);
         } else {
             cafeOwner.setAllocationStatus(CafeOwner.AllocationStatus.REJECTED);
         }

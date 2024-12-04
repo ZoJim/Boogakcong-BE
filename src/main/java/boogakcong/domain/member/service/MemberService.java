@@ -5,21 +5,20 @@ import boogakcong.domain.member.repository.MemberRepository;
 import boogakcong.global.exception.BusinessError;
 import boogakcong.global.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Comment;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Comment("순수 Entity를 다루는 서비스")
+@Transactional(readOnly = true)
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
 
     public Member getMemberById(Long id) {
         return memberRepository.findById(id).orElseThrow(() -> new BusinessException(BusinessError.MEMBER_NOT_FOUND));
     }
 
+    @Transactional
     public Member createMember(Member member) {
         return memberRepository.save(member);
     }
@@ -34,7 +33,14 @@ public class MemberService {
         return memberRepository.findByEmail(email).orElseThrow(() -> new BusinessException(BusinessError.MEMBER_NOT_FOUND));
     }
 
+    @Transactional
     public void updateMember(Member member) {
+        memberRepository.save(member);
+    }
+
+    @Transactional
+    public void confirmCaffeManager(Member member) {
+        member.confirmCaffeManager();
         memberRepository.save(member);
     }
 }
