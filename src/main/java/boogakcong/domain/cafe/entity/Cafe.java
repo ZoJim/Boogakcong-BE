@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +18,8 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Where(clause = "deleted_at IS NULL")
+@SQLDelete(sql = "UPDATE cafe SET deleted_at = now() WHERE id = ?")
 public class Cafe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,4 +68,7 @@ public class Cafe {
 
     @Comment("와이파이 여부")
     private Boolean isWifi;
+
+    @Comment("삭제 일시")
+    private LocalDateTime deletedAt;
 }
