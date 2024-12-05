@@ -8,6 +8,7 @@ import boogakcong.domain.member.entity.Member;
 import boogakcong.domain.member.service.MemberService;
 import boogakcong.global.exception.BusinessError;
 import boogakcong.global.exception.BusinessException;
+import boogakcong.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,5 +78,9 @@ public class CafeOwnerService {
 
     public List<CafeOwner> getCafeOwnerRequests() {
         return cafeOwnerRepository.findAllByAllocationStatusOrderByCreatedAtDesc(CafeOwner.AllocationStatus.REQUESTED);
+    }
+
+    public CafeOwner findByOwnerId(Long userId) {
+        return cafeOwnerRepository.findByOwnerId(userId).orElseThrow(() -> new BusinessException(BusinessError.CAFE_OWNER_NOT_FOUND));
     }
 }
