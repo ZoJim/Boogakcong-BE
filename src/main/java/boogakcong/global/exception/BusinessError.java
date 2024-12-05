@@ -22,8 +22,13 @@ public enum BusinessError {
     CAFE_DELETE_REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "카페 삭제 요청을 찾을 수 없습니다."),
     CAFE_DELETE_REQUEST_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 카페 삭제 요청이 존재합니다."),
 
+    // NOTIFICATION
     NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "알림을 찾을 수 없습니다."),
-    ;
+
+    // REVIEW
+    REVIEW_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 리뷰를 작성하였습니다."),
+    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "리뷰를 찾을 수 없습니다."),
+    REVIEW_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "리뷰 작성자만 수정할 수 있습니다.");
 
 
     private final HttpStatus httpStatus;

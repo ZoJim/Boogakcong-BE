@@ -23,13 +23,8 @@ public class CafeNotificationService {
                 .build());
     }
 
-    public boolean isNotificationExist(Long cafeId, Long notificationId) {
-        return cafeNotificationRepository.existsByCafeIdAndId(cafeId, notificationId);
-    }
-
-    public CafeNotification getNotification(Long cafeId, Long notificationId) {
-        return cafeNotificationRepository.findByCafeIdAndId(cafeId, notificationId)
-                .orElseThrow(() -> new BusinessException(BusinessError.NOTIFICATION_NOT_FOUND));
+    public boolean isNotificationExist(Long cafeId) {
+        return cafeNotificationRepository.existsByCafeId(cafeId);
     }
 
     public CafeNotification getNotificationByCafeId(Long cafeId) {
