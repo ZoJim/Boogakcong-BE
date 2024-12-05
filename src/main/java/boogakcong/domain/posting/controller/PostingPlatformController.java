@@ -49,4 +49,16 @@ public class PostingPlatformController {
         return ResponseEntity.ok(postingPlatformService.getPosting(postingId));
     }
 
+    @PatchMapping("/{postingId}")
+    @Secured({"ROLE_USER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER", "ROLE_CAFE_OWNER"})
+    public ResponseEntity<?> updatePosting(
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @PathVariable(name = "postingId") Long postingId,
+            @ModelAttribute CreatePostingRequest request, // @ModelAttribute로 변경
+            @RequestParam("file") MultipartFile file
+    ) {
+        PostingResponse post = postingPlatformService.update(userDetails.getUserId(), postingId, request, file);
+        return ResponseEntity.ok(post);
+    }
+
 }

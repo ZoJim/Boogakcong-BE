@@ -4,6 +4,8 @@ import boogakcong.domain.posting.dto.request.CreatePostingRequest;
 import boogakcong.domain.posting.dto.response.PostingResponse;
 import boogakcong.domain.posting.entity.Posting;
 import boogakcong.global.aws.S3Service;
+import boogakcong.global.exception.BusinessError;
+import boogakcong.global.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,6 +92,54 @@ public class PostingPlatformService {
                 .imageUrl(post.getImageUrl())
                 .postType(post.getPostType())
                 .createdAt(post.getCreatedAt())
+                .build();
+    }
+
+    @Transactional
+    public PostingResponse update(Long userId, Long postingId, CreatePostingRequest request, MultipartFile file) {
+        if (!postingService.getPosting(postingId).getUserId().equals(userId)) {
+            throw new BusinessException(BusinessError.POSTING_NOT_AUTHORIZED);
+        }
+
+        Posting post = postingService.update(
+                Posting.builder()
+                        .id(postingId)
+                        .userId(userId)
+                        .title(request.title())
+                        .content(request.content())
+                        .postType(request.postType())
+                        .createdAt(postingService.getPosting(postingId).getCreatedAt())
+                        .build()
+        );
+
+        if (file != null) {
+            String fileUrl = s3Service.uploadFile(file);
+
+            post = postingService.update(
+                    Posting.builder()
+                            .id(postingId)
+                            .userId(userId)
+                            .title(request.title())
+                            .content(request.content())
+                            .postType(request.postType())
+                            .imageUrl(fileUrl)
+                            .createdAt(postingService.getPosting(postingId).getCreatedAt())
+                            .build()
+            );
+
+
+        }
+
+        Posting newPost = postingService.update(post);
+
+        return PostingResponse.builder()
+                .id(newPost.getId())
+                .userId(newPost.getUserId())
+                .title(newPost.getTitle())
+                .content(newPost.getContent())
+                .imageUrl(newPost.getImageUrl())
+                .postType(newPost.getPostType())
+                .createdAt(newPost.getCreatedAt())
                 .build();
     }
 }

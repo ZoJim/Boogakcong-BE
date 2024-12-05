@@ -21,12 +21,14 @@ public class PostingService {
         return postingRepository.save(post);
     }
 
+    @Transactional
     public void delete() {
         // 게시글 삭제
     }
 
-    public void update() {
-        // 게시글 수정
+    @Transactional
+    public Posting update(Posting post) {
+        return postingRepository.save(post);
     }
 
     public List<Posting> getPostings(Posting.PostType postType) {

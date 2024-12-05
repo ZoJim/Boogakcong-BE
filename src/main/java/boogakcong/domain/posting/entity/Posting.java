@@ -1,10 +1,12 @@
 package boogakcong.domain.posting.entity;
 
+import boogakcong.global.exception.BusinessException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -28,7 +30,7 @@ public class Posting {
     private String content;
     private Long userId;
     private String imageUrl;
-
+    @CreationTimestamp
     private LocalDateTime createdAt;
     private LocalDateTime deletedAt;
 

@@ -32,7 +32,7 @@ public enum BusinessError {
 
     // POSTING
     POSTING_NOT_FOUND(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."),
-
+    POSTING_NOT_AUTHORIZED(HttpStatus.UNAUTHORIZED, "게시글 작성자만 수정할 수 있습니다."),
     ;
 
     private final HttpStatus httpStatus;
