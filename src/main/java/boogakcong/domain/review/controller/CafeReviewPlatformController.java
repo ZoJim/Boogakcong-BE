@@ -61,7 +61,7 @@ public class CafeReviewPlatformController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping("/my")
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<?> getMyReview(
             @AuthenticationPrincipal UserDetailsImpl userDetails
@@ -70,7 +70,7 @@ public class CafeReviewPlatformController {
         return ResponseEntity.ok(myReview);
     }
 
-    @GetMapping("/all")
+    @GetMapping()
     @Secured({"ROLE_COMMUNITY_MANAGER", "ROLE_ADMIN"})
     public ResponseEntity<?> getAllReview(
             @AuthenticationPrincipal UserDetailsImpl userDetails
