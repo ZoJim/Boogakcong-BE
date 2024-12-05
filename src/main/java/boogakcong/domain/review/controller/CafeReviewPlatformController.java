@@ -2,6 +2,7 @@ package boogakcong.domain.review.controller;
 
 import boogakcong.domain.review.dto.request.CreateReviewRequest;
 import boogakcong.domain.review.dto.request.UpdateReviewRequest;
+import boogakcong.domain.review.dto.response.ReviewResponse;
 import boogakcong.domain.review.service.CafeReviewPlatformService;
 import boogakcong.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -55,5 +58,14 @@ public class CafeReviewPlatformController {
                 userDetails.getUserId()
         );
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public ResponseEntity<?> getMyReview(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        List<ReviewResponse> myReview = cafeReviewPlatformService.getMyReview(userDetails.getUserId());
+        return ResponseEntity.ok(myReview);
     }
 }

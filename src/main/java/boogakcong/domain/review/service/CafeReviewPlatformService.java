@@ -4,12 +4,15 @@ import boogakcong.domain.cafe.entity.Cafe;
 import boogakcong.domain.cafe.service.CafeService;
 import boogakcong.domain.review.dto.request.CreateReviewRequest;
 import boogakcong.domain.review.dto.request.UpdateReviewRequest;
+import boogakcong.domain.review.dto.response.ReviewResponse;
 import boogakcong.domain.review.entity.Review;
 import boogakcong.global.exception.BusinessError;
 import boogakcong.global.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -54,5 +57,13 @@ public class CafeReviewPlatformService {
         }
 
         cafeReviewService.deleteReview(reviewId);
+    }
+
+    public List<ReviewResponse> getMyReview(Long userId) {
+        return cafeReviewService.getMyReview(userId)
+                .stream()
+                .map(ReviewResponse::fromEntity)
+                .toList();
+
     }
 }

@@ -1,6 +1,7 @@
 package boogakcong.domain.review.service;
 
 import boogakcong.domain.review.dto.request.CreateReviewRequest;
+import boogakcong.domain.review.dto.response.ReviewResponse;
 import boogakcong.domain.review.entity.Review;
 import boogakcong.domain.review.repository.ReviewRepository;
 import boogakcong.global.exception.BusinessError;
@@ -8,6 +9,8 @@ import boogakcong.global.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -40,5 +43,11 @@ public class CafeReviewService {
     public void updateContent(Review review, String content) {
         review.setContent(content);
         reviewRepository.save(review);
+    }
+
+    public List<Review> getMyReview(Long userId) {
+        return reviewRepository.findByMemberId(userId)
+                .stream()
+                .toList();
     }
 }
