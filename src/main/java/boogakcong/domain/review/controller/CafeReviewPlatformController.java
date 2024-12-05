@@ -44,4 +44,16 @@ public class CafeReviewPlatformController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{reviewId}")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public ResponseEntity<?> deleteReview(
+            @PathVariable(name = "reviewId") Long reviewId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        cafeReviewPlatformService.deleteReview(
+                reviewId,
+                userDetails.getUserId()
+        );
+        return ResponseEntity.ok().build();
+    }
 }

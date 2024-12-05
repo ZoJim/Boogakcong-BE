@@ -44,4 +44,15 @@ public class CafeReviewPlatformService {
 
         cafeReviewService.updateContent(review, request.content());
     }
+
+    @Transactional
+    public void deleteReview(Long reviewId, Long userId) {
+        Review review = cafeReviewService.getReviewById(reviewId);
+
+        if (!review.getMemberId().equals(userId)) {
+            throw new BusinessException(BusinessError.REVIEW_UNAUTHORIZED);
+        }
+
+        cafeReviewService.deleteReview(reviewId);
+    }
 }
