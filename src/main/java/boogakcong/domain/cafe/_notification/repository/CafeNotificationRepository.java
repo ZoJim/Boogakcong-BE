@@ -14,7 +14,5 @@ public interface CafeNotificationRepository extends JpaRepository<CafeNotificati
 
     Optional<CafeNotification> findByCafeIdAndId(Long cafeId, Long id);
 
-    void deleteByCafeIdAndId(Long cafeId, Long notificationId);
-
-    boolean existsByCafeIdAndId(Long cafeId, Long notificationId);
+    boolean existsByCafeId(Long cafeId);
 }

@@ -28,7 +28,22 @@ public class CafePlatformService {
 
     public CafeDetailResponse getCafeById(Long cafeId) {
         Cafe cafe = cafeService.getCafeById(cafeId);
-        CafeNotification notification = cafeNotificationService.getNotificationByCafeId(cafeId);
+        if (cafeNotificationService.isNotificationExist(cafeId)) {
+            CafeNotification notification = cafeNotificationService.getNotificationByCafeId(cafeId);
+            return CafeDetailResponse.builder()
+                    .id(cafe.getId())
+                    .name(cafe.getName())
+                    .phoneNumber(cafe.getPhoneNumber())
+                    .roadAddress(cafe.getRoadAddress())
+                    .addressDetail(cafe.getAddressDetail())
+                    .latitude(cafe.getLatitude())
+                    .longitude(cafe.getLongitude())
+                    .placeUrl(cafe.getPlaceUrl())
+                    .outletCount(cafe.getOutletCount())
+                    .maxPeoplePerTable(cafe.getMaxPeoplePerTable())
+                    .notice(notification.getContent())
+                    .build();
+        }
         return CafeDetailResponse.builder()
                 .id(cafe.getId())
                 .name(cafe.getName())
@@ -40,7 +55,8 @@ public class CafePlatformService {
                 .placeUrl(cafe.getPlaceUrl())
                 .outletCount(cafe.getOutletCount())
                 .maxPeoplePerTable(cafe.getMaxPeoplePerTable())
-                .notice(notification.getContent())
                 .build();
+
+
     }
 }
