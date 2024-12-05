@@ -19,11 +19,11 @@ public class CafeOwnerController {
     private final CafeOwnerService cafeOwnerService;
 
     @Comment("카페 소유자 신청")
-    @Secured({"ROLE_USER"})
+    @Secured({"ROLE_NORMAL_USER"})
     @PostMapping("/request")
     public ResponseEntity<?> requestCafeOwner(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestParam Long cafeId
+            @RequestParam(name = "cafeId") Long cafeId
     ) {
         cafeOwnerService.requestCafeOwner(
                 userDetails.getUserId(),
@@ -45,9 +45,9 @@ public class CafeOwnerController {
     @Secured({"ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
     @PostMapping("/accept")
     public ResponseEntity<?> acceptCafeOwner(
-            @RequestParam Long userId,
-            @RequestParam Long cafeId,
-            @RequestParam Boolean accept
+            @RequestParam(name = "userId") Long userId,
+            @RequestParam(name = "cafeId") Long cafeId,
+            @RequestParam(name = "accept") Boolean accept
     ) {
         cafeOwnerService.acceptCafeOwner(
                 userId,

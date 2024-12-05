@@ -28,13 +28,6 @@ public class MemberAuthService {
         return tokenProvider.createTokenResponse(member.getEmail(), member.getId(), member.getRole().name());
     }
 
-    @Transactional
-    public Long confirmCaffeManager(Long memberId) {
-        Member member = memberService.getMemberById(memberId);
-        member.confirmCaffeManager();
-        memberService.updateMember(member);
-        return member.getId();
-    }
 
     public TokenResponse login(MemberLoginRequest request) {
         Member member = memberService.getMemberByEmail(request.email());
@@ -47,6 +40,22 @@ public class MemberAuthService {
 
     public TokenResponse refresh(MemberAuthRefreshRequest request) {
         return null;
+    }
+
+    @Transactional
+    public Long confirmCafeOwner(Long memberId) {
+        Member member = memberService.getMemberById(memberId);
+        member.confirmCafeOwner();
+        memberService.updateMember(member);
+        return member.getId();
+    }
+
+    @Transactional
+    public Long confirmCommunityManager(Long memberId) {
+        Member member = memberService.getMemberById(memberId);
+        member.confirmCommunityManager();
+        memberService.updateMember(member);
+        return member.getId();
     }
 }
 

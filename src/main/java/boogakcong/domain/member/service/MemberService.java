@@ -40,7 +40,7 @@ public class MemberService {
 
     @Transactional
     public void confirmCaffeManager(Member member) {
-        member.confirmCaffeManager();
+        member.confirmCafeOwner();
         memberRepository.save(member);
     }
 }

@@ -52,7 +52,11 @@ public class Member {
                 .build();
     }
 
-    public void confirmCaffeManager() {
-        this.role = MemberRole.ROLE_CAFFE_OWNER;
+    public void confirmCafeOwner() {
+        this.role = MemberRole.ROLE_CAFE_OWNER;
+    }
+
+    public void confirmCommunityManager() {
+        this.role = MemberRole.ROLE_COMMUNITY_MANAGER;
     }
 }
