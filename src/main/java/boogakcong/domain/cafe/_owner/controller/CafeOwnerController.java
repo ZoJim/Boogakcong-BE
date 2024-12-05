@@ -34,7 +34,7 @@ public class CafeOwnerController {
 
     @Comment("카페 소유자 신청 조회")
     @Secured({"ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
-    @GetMapping("/requests")
+    @GetMapping("/request")
     public ResponseEntity<List<CafeOwner>> getCafeOwnerRequests(
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
@@ -45,13 +45,11 @@ public class CafeOwnerController {
     @Secured({"ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
     @PostMapping("/accept")
     public ResponseEntity<?> acceptCafeOwner(
-            @RequestParam(name = "userId") Long userId,
-            @RequestParam(name = "cafeId") Long cafeId,
-            @RequestParam(name = "accept") Boolean accept
+            @RequestParam(name = "requestId") Long requestId,
+            @RequestParam(name = "accept") boolean accept
     ) {
         cafeOwnerService.acceptCafeOwner(
-                userId,
-                cafeId,
+                requestId,
                 accept
         );
         return ResponseEntity.ok().build();

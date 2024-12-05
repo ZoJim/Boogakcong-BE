@@ -32,6 +32,9 @@ public class CafeOwnerService {
 
         // 카페에 소유자가 이미 존재하는가?
         if (cafeOwnerRepository.existsByCafeId(cafeId)) {
+            if (findByOwnerId(userId).getOwnerId().equals(userId)) {
+                throw new BusinessException(BusinessError.CAFE_OWNER_ALREADY);
+            }
             throw new BusinessException(BusinessError.CAFE_ALREADY_HAS_OWNER);
         }
 
@@ -47,17 +50,11 @@ public class CafeOwnerService {
     }
 
     @Transactional
-    public void acceptCafeOwner(Long userId, Long cafeId, Boolean accept) {
-        // 회원이 유효한가?
-        Member member = memberService.getMemberById(userId);
+    public void acceptCafeOwner(Long requestId, boolean accept) {
+        // request 가져오기
+        CafeOwner cafeOwner = this.findById(requestId);
+        Member member = memberService.getMemberById(cafeOwner.getOwnerId());
 
-        // 카페가 유효한가?
-        Cafe cafe = cafeService.getCafeById(cafeId);
-
-        // 카페 소유자가 존재하는가?
-        CafeOwner cafeOwner = cafeOwnerRepository
-                .findById(cafeId)
-                .orElseThrow(() -> new BusinessException(BusinessError.CAFE_OWNER_NOT_FOUND));
 
         // 카페 소유자가 요청 상태인가?
         if (cafeOwner.getAllocationStatus() != CafeOwner.AllocationStatus.REQUESTED) {
@@ -81,5 +78,9 @@ public class CafeOwnerService {
 
     public CafeOwner findByOwnerId(Long userId) {
         return cafeOwnerRepository.findByOwnerId(userId).orElseThrow(() -> new BusinessException(BusinessError.CAFE_OWNER_NOT_FOUND));
+    }
+
+    public CafeOwner findById(Long cafeId) {
+        return cafeOwnerRepository.findById(cafeId).orElseThrow(() -> new BusinessException(BusinessError.CAFE_OWNER_REQUEST_NOT_FOUND));
     }
 }
