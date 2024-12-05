@@ -142,4 +142,13 @@ public class PostingPlatformService {
                 .createdAt(newPost.getCreatedAt())
                 .build();
     }
+
+    @Transactional
+    public void delete(Long userId, Long postingId) {
+        if (!postingService.getPosting(postingId).getUserId().equals(userId)) {
+            throw new BusinessException(BusinessError.POSTING_NOT_AUTHORIZED);
+        }
+
+        postingService.delete(postingId);
+    }
 }

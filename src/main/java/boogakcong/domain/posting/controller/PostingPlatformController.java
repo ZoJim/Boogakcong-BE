@@ -61,4 +61,14 @@ public class PostingPlatformController {
         return ResponseEntity.ok(post);
     }
 
+    @DeleteMapping("/{postingId}")
+    @Secured({"ROLE_USER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER", "ROLE_CAFE_OWNER"})
+    public ResponseEntity<?> deletePosting(
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @PathVariable(name = "postingId") Long postingId
+    ) {
+        postingPlatformService.delete(userDetails.getUserId(), postingId);
+        return ResponseEntity.ok().build();
+    }
+
 }

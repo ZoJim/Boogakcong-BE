@@ -22,8 +22,8 @@ public class PostingService {
     }
 
     @Transactional
-    public void delete() {
-        // 게시글 삭제
+    public void delete(Long postingId) {
+        postingRepository.deleteById(postingId);
     }
 
     @Transactional
