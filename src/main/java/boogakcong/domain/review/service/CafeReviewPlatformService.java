@@ -72,4 +72,11 @@ public class CafeReviewPlatformService {
                 .stream()
                 .toList();
     }
+
+    public List<ReviewResponse> getReviewListByCafeId(Long cafeId) {
+        return cafeReviewService.getReviewListByCafeId(cafeId)
+                .stream()
+                .map(ReviewResponse::fromEntity)
+                .toList();
+    }
 }
