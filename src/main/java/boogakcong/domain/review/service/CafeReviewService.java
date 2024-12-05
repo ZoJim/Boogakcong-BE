@@ -22,4 +22,8 @@ public class CafeReviewService {
     public void deleteReview(Long reviewId) {
         reviewRepository.deleteById(reviewId);
     }
+
+    public boolean existsReview(Long memberId, Long cafeId) {
+        return reviewRepository.existsByMemberIdAndCafeId(memberId, cafeId);
+    }
 }
