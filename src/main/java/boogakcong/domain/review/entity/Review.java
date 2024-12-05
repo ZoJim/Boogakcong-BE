@@ -3,10 +3,7 @@ package boogakcong.domain.review.entity;
 import boogakcong.domain.cafe.entity.Cafe;
 import boogakcong.domain.member.entity.Member;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.SQLDelete;
@@ -36,6 +33,7 @@ public class Review {
 
     @Comment("리뷰 내용")
     @Column(nullable = false)
+    @Setter
     private String content;
 
     @CurrentTimestamp
@@ -43,4 +41,9 @@ public class Review {
     private LocalDateTime createdAt;
 
     private LocalDateTime deletedAt;
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
 }

@@ -3,6 +3,7 @@ package boogakcong.domain.review.service;
 import boogakcong.domain.cafe.entity.Cafe;
 import boogakcong.domain.cafe.service.CafeService;
 import boogakcong.domain.review.dto.request.CreateReviewRequest;
+import boogakcong.domain.review.dto.request.UpdateReviewRequest;
 import boogakcong.domain.review.entity.Review;
 import boogakcong.global.exception.BusinessError;
 import boogakcong.global.exception.BusinessException;
@@ -31,5 +32,16 @@ public class CafeReviewPlatformService {
                         .content(request.content())
                         .memberId(memberId)
                         .build());
+    }
+
+    @Transactional
+    public void updateReview(UpdateReviewRequest request, Long userId) {
+        Review review = cafeReviewService.getReviewById(request.reviewId());
+
+        if (!review.getMemberId().equals(userId)) {
+            throw new BusinessException(BusinessError.REVIEW_UNAUTHORIZED);
+        }
+
+        cafeReviewService.updateContent(review, request.content());
     }
 }
