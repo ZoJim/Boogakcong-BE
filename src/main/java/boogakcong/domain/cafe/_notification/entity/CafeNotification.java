@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -21,8 +22,7 @@ public class CafeNotification {
     private Long id;
 
     @Comment("카페")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Cafe cafe;
+    private Long cafeId;
 
     @Comment("알림 내용")
     @Column(nullable = false)
@@ -30,5 +30,6 @@ public class CafeNotification {
 
     @Comment("알림 등록 날짜")
     @Column(nullable = false)
-    private LocalDateTime notificationDate;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }

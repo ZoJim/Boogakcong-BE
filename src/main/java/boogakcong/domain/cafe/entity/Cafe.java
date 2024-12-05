@@ -1,7 +1,6 @@
 package boogakcong.domain.cafe.entity;
 
-import boogakcong.domain.cafe.dto.response.CafeDetailResponse;
-import boogakcong.domain.cafe.dto.response.CafeSimpleResponse;
+import boogakcong.domain.cafe.dto.request.UpdateCafeRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -68,4 +67,9 @@ public class Cafe {
     @Comment("삭제 일시")
     private LocalDateTime deletedAt;
 
+    public void update(UpdateCafeRequest request) {
+        this.outletCount = request.outletCount();
+        this.maxPeoplePerTable = request.maxPeoplePerTable();
+        this.isWifi = request.isWifi();
+    }
 }

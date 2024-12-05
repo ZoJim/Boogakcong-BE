@@ -1,5 +1,7 @@
 package boogakcong.domain.cafe.service;
 
+import boogakcong.domain.cafe._owner.entity.CafeOwner;
+import boogakcong.domain.cafe._owner.service.CafeOwnerService;
 import boogakcong.domain.cafe.entity.Cafe;
 import boogakcong.domain.cafe.repository.CafeRepository;
 import boogakcong.global.exception.BusinessError;
@@ -59,5 +61,13 @@ public class CafeService {
 
     public void save(Cafe cafe) {
         cafeRepository.save(cafe);
+    }
+
+    public void requestDeleteCafe(Long cafeId) {
+        Cafe cafe = getCafeById(cafeId);
+    }
+
+    public void deleteCafe(Long cafeId) {
+        cafeRepository.deleteById(cafeId);
     }
 }

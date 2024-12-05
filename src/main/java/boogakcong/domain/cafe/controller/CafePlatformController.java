@@ -8,10 +8,7 @@ import org.hibernate.annotations.Comment;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,7 +28,14 @@ public class CafePlatformController {
 
     @Comment("카페 단건 조회")
     @GetMapping("/{cafeId}")
-    public ResponseEntity<CafeDetailResponse> getCafe(@PathVariable Long cafeId) {
+    public ResponseEntity<CafeDetailResponse> getCafe(@PathVariable(name = "cafeId") Long cafeId) {
         return ResponseEntity.ok(cafePlatformService.getCafeById(cafeId));
+    }
+
+    @Comment("카페 삭제")
+    @DeleteMapping("/{cafeId}")
+    public ResponseEntity<Void> deleteCafe(@PathVariable(name = "cafeId") Long cafeId) {
+//        cafePlatformService.deleteCafe(cafeId);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Where(clause = "deleted_at IS NULL")
-@SQLDelete(sql = "UPDATE cafe_owners SET deleted_at = NOW() WHERE id = ?")
+@SQLDelete(sql = "UPDATE cafe_owner SET deleted_at = NOW() WHERE id = ?")
 public class CafeOwner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

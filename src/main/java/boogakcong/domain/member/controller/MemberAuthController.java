@@ -8,7 +8,6 @@ import boogakcong.domain.member.dto.response.TokenResponse;
 import boogakcong.domain.member.service.MemberAuthService;
 import boogakcong.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
-import org.antlr.v4.runtime.Token;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -43,10 +42,18 @@ public class MemberAuthController {
     }
 
     @Secured("ROLE_ADMIN")
-    @PostMapping("/confirm-caffe-manager")
-    public ResponseEntity<?> confirmCaffeManager(
-            @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam Long memberId
+    @PostMapping("/confirm-cafe-owner")
+    public ResponseEntity<?> confirmCaffeOwner(
+            @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam(name = "memberId") Long memberId
     ) {
-        return ResponseEntity.ok(memberAuthService.confirmCaffeManager(memberId));
+        return ResponseEntity.ok(memberAuthService.confirmCafeOwner(memberId));
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/confirm-community-manager")
+    public ResponseEntity<?> confirmCommunityManager(
+            @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam(name = "memberId") Long memberId
+    ) {
+        return ResponseEntity.ok(memberAuthService.confirmCommunityManager(memberId));
     }
 }

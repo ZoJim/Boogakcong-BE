@@ -1,5 +1,7 @@
 package boogakcong.domain.cafe.service;
 
+import boogakcong.domain.cafe._notification.entity.CafeNotification;
+import boogakcong.domain.cafe._notification.service.CafeNotificationService;
 import boogakcong.domain.cafe.dto.response.CafeDetailResponse;
 import boogakcong.domain.cafe.dto.response.CafeSimpleResponse;
 import boogakcong.domain.cafe.entity.Cafe;
@@ -15,6 +17,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class CafePlatformService {
     private final CafeService cafeService;
+    private final CafeNotificationService cafeNotificationService;
 
     public List<CafeSimpleResponse> getCafeList(Pageable pageable) {
         return cafeService.getCafeList(pageable)
@@ -25,6 +28,7 @@ public class CafePlatformService {
 
     public CafeDetailResponse getCafeById(Long cafeId) {
         Cafe cafe = cafeService.getCafeById(cafeId);
+        CafeNotification notification = cafeNotificationService.getNotificationByCafeId(cafeId);
         return CafeDetailResponse.builder()
                 .id(cafe.getId())
                 .name(cafe.getName())
@@ -36,6 +40,7 @@ public class CafePlatformService {
                 .placeUrl(cafe.getPlaceUrl())
                 .outletCount(cafe.getOutletCount())
                 .maxPeoplePerTable(cafe.getMaxPeoplePerTable())
+                .notice(notification.getContent())
                 .build();
     }
 }

@@ -2,6 +2,8 @@ package boogakcong.domain.cafe._owner.controller;
 
 import boogakcong.domain.cafe._owner.entity.CafeOwner;
 import boogakcong.domain.cafe._owner.service.CafeOwnerService;
+import boogakcong.domain.cafe.dto.request.UpdateCafeRequest;
+import boogakcong.domain.cafe.service.CafeManageService;
 import boogakcong.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Comment;
@@ -15,15 +17,16 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/cafes/owners")
-public class CafeOwnerController {
+public class CafeOwnerManageController {
     private final CafeOwnerService cafeOwnerService;
 
+
     @Comment("카페 소유자 신청")
-    @Secured({"ROLE_USER"})
+    @Secured({"ROLE_NORMAL_USER"})
     @PostMapping("/request")
     public ResponseEntity<?> requestCafeOwner(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestParam Long cafeId
+            @RequestParam(name = "cafeId") Long cafeId
     ) {
         cafeOwnerService.requestCafeOwner(
                 userDetails.getUserId(),
@@ -34,7 +37,7 @@ public class CafeOwnerController {
 
     @Comment("카페 소유자 신청 조회")
     @Secured({"ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
-    @GetMapping("/requests")
+    @GetMapping("/request")
     public ResponseEntity<List<CafeOwner>> getCafeOwnerRequests(
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
@@ -45,15 +48,15 @@ public class CafeOwnerController {
     @Secured({"ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
     @PostMapping("/accept")
     public ResponseEntity<?> acceptCafeOwner(
-            @RequestParam Long userId,
-            @RequestParam Long cafeId,
-            @RequestParam Boolean accept
+            @RequestParam(name = "requestId") Long requestId,
+            @RequestParam(name = "accept") boolean accept
     ) {
         cafeOwnerService.acceptCafeOwner(
-                userId,
-                cafeId,
+                requestId,
                 accept
         );
         return ResponseEntity.ok().build();
     }
+
+
 }
