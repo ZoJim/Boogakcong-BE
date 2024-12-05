@@ -9,7 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface CafeNotificationRepository extends JpaRepository<CafeNotification, Long> {
-    List<CafeNotification> findByCafeId(Long cafeId);
+    // 가장 최근에 등록된 알림을 조회하는 메소드
+    Optional<CafeNotification> findFirstByCafeIdOrderByCreatedAtDesc(Long cafeId);
 
     Optional<CafeNotification> findByCafeIdAndId(Long cafeId, Long id);
 

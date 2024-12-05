@@ -13,6 +13,7 @@ public record CafeDetailResponse(
         Double longitude,
         String placeUrl,
         Integer outletCount,
-        Integer maxPeoplePerTable
+        Integer maxPeoplePerTable,
+        String notice
 ) {
 }

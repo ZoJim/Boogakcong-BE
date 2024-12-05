@@ -31,4 +31,9 @@ public class CafeNotificationService {
         return cafeNotificationRepository.findByCafeIdAndId(cafeId, notificationId)
                 .orElseThrow(() -> new BusinessException(BusinessError.NOTIFICATION_NOT_FOUND));
     }
+
+    public CafeNotification getNotificationByCafeId(Long cafeId) {
+        return cafeNotificationRepository.findFirstByCafeIdOrderByCreatedAtDesc(cafeId)
+                .orElseThrow(() -> new BusinessException(BusinessError.NOTIFICATION_NOT_FOUND));
+    }
 }
