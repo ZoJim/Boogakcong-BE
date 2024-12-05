@@ -28,8 +28,12 @@ public enum BusinessError {
     // REVIEW
     REVIEW_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 리뷰를 작성하였습니다."),
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "리뷰를 찾을 수 없습니다."),
-    REVIEW_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "리뷰 작성자만 수정할 수 있습니다.");
+    REVIEW_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "리뷰 작성자만 수정할 수 있습니다."),
 
+    // POSTING
+    POSTING_NOT_FOUND(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."),
+    POSTING_NOT_AUTHORIZED(HttpStatus.UNAUTHORIZED, "게시글 작성자만 수정할 수 있습니다."),
+    ;
 
     private final HttpStatus httpStatus;
 
