@@ -19,6 +19,8 @@ public enum BusinessError {
     CAFE_ALREADY_HAS_OWNER(HttpStatus.CONFLICT, "이미 소유자가 있는 카페입니다."),
     CAFE_OWNER_NOT_REQUESTED(HttpStatus.BAD_REQUEST, "카페 소유자가 요청 상태가 아닙니다."),
     CAFE_OWNER_REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "카페 소유자 요청을 찾을 수 없습니다."),
+    CAFE_DELETE_REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "카페 삭제 요청을 찾을 수 없습니다."),
+    CAFE_DELETE_REQUEST_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 카페 삭제 요청이 존재합니다."),
 
     NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "알림을 찾을 수 없습니다."),
     ;
@@ -27,4 +29,4 @@ public enum BusinessError {
     private final HttpStatus httpStatus;
 
     private final String message;
-    }
+}

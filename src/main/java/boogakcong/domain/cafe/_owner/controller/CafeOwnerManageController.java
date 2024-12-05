@@ -2,6 +2,8 @@ package boogakcong.domain.cafe._owner.controller;
 
 import boogakcong.domain.cafe._owner.entity.CafeOwner;
 import boogakcong.domain.cafe._owner.service.CafeOwnerService;
+import boogakcong.domain.cafe.dto.request.UpdateCafeRequest;
+import boogakcong.domain.cafe.service.CafeManageService;
 import boogakcong.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Comment;
@@ -15,8 +17,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/cafes/owners")
-public class CafeOwnerController {
+public class CafeOwnerManageController {
     private final CafeOwnerService cafeOwnerService;
+
 
     @Comment("카페 소유자 신청")
     @Secured({"ROLE_NORMAL_USER"})
@@ -55,13 +58,5 @@ public class CafeOwnerController {
         return ResponseEntity.ok().build();
     }
 
-    @Comment("카페 소유자 삭제")
-    @Secured({"ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
-    @DeleteMapping()
-    public ResponseEntity<?> deleteCafeOwner(
-            @RequestParam(name = "ownerId") Long ownerId
-    ) {
-        cafeOwnerService.deleteCafeOwner(ownerId);
-        return ResponseEntity.ok().build();
-    }
+
 }

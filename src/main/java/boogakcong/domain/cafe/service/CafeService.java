@@ -62,4 +62,12 @@ public class CafeService {
     public void save(Cafe cafe) {
         cafeRepository.save(cafe);
     }
+
+    public void requestDeleteCafe(Long cafeId) {
+        Cafe cafe = getCafeById(cafeId);
+    }
+
+    public void deleteCafe(Long cafeId) {
+        cafeRepository.deleteById(cafeId);
+    }
 }

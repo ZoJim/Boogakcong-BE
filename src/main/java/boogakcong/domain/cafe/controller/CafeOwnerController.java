@@ -1,6 +1,7 @@
 package boogakcong.domain.cafe.controller;
 
 import boogakcong.domain.cafe.dto.request.UpdateCafeRequest;
+import boogakcong.domain.cafe.service.CafeDeleteRequestService;
 import boogakcong.domain.cafe.service.CafeManageService;
 import boogakcong.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -8,29 +9,30 @@ import org.hibernate.annotations.Comment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@Comment("카페를 관리하는 컨트롤러")
-@RequestMapping("/api/cafes")
 @RestController
+@Comment("카페 소유자가 카페를 관리하는 컨트롤러")
+@Secured("ROLE_CAFE_OWNER")
+@RequestMapping("/api/cafes/owners")
 @RequiredArgsConstructor
-public class CafeMangeController {
+public class CafeOwnerController {
+    private final CafeDeleteRequestService cafeDeleteRequestService;
     private final CafeManageService cafeManageService;
 
-
-    @Comment("카카오 API를 이용하여 카페를 등록하는 API")
-    @PostMapping("/kakao")
-    public ResponseEntity<?> registerCafeByKakao() {
-        cafeManageService.registerCafeByKakao();
+    @Comment("카페 삭제 요청")
+    @Secured("ROLE_CAFE_OWNER")
+    @DeleteMapping("/request")
+    public ResponseEntity<?> deleteCafeRequest(
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestParam(name = "reasonId") Long reasonId
+    ) {
+        cafeDeleteRequestService.requestCafeDelete(userDetails.getUserId(), reasonId);
         return ResponseEntity.ok().build();
     }
 
-
     @Comment("카페 정보 수정 API")
-    @PostMapping("/owners/update")
+    @PostMapping("/update")
     @Secured("ROLE_CAFE_OWNER")
     public ResponseEntity<?> updateCafe(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -39,4 +41,5 @@ public class CafeMangeController {
         cafeManageService.updateCafe(userDetails.getUserId(), request);
         return ResponseEntity.ok().build();
     }
+
 }
