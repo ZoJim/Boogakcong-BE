@@ -54,4 +54,14 @@ public class CafeOwnerController {
         );
         return ResponseEntity.ok().build();
     }
+
+    @Comment("카페 소유자 삭제")
+    @Secured({"ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
+    @DeleteMapping()
+    public ResponseEntity<?> deleteCafeOwner(
+            @RequestParam(name = "ownerId") Long ownerId
+    ) {
+        cafeOwnerService.deleteCafeOwner(ownerId);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -14,5 +14,7 @@ public interface CafeOwnerRepository extends JpaRepository<CafeOwner, Long> {
     List<CafeOwner> findAllByAllocationStatusOrderByCreatedAtDesc(CafeOwner.AllocationStatus allocationStatus);
 
     Optional<CafeOwner> findByOwnerId(Long userId);
+
+    Optional<CafeOwner> findByCafeId(Long cafeId);
 }
 

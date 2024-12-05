@@ -39,8 +39,15 @@ public class MemberService {
     }
 
     @Transactional
-    public void confirmCaffeManager(Member member) {
+    public void confirmCaffeOwner(Member member) {
         member.confirmCafeOwner();
+        memberRepository.save(member);
+    }
+
+    @Transactional
+    public void cancelCaffeOwner(Long ownerId) {
+        Member member = getMemberById(ownerId);
+        member.cancelCafeOwner();
         memberRepository.save(member);
     }
 }

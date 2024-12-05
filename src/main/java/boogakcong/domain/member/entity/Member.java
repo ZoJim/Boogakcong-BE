@@ -59,4 +59,8 @@ public class Member {
     public void confirmCommunityManager() {
         this.role = MemberRole.ROLE_COMMUNITY_MANAGER;
     }
+
+    public void cancelCafeOwner() {
+        this.role = MemberRole.ROLE_NORMAL_USER;
+    }
 }

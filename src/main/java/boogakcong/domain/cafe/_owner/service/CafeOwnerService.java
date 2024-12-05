@@ -64,12 +64,19 @@ public class CafeOwnerService {
         // 카페 소유자 승인
         if (accept) {
             cafeOwner.setAllocationStatus(CafeOwner.AllocationStatus.APPROVED);
-            memberService.confirmCaffeManager(member);
+            memberService.confirmCaffeOwner(member);
         } else {
             cafeOwner.setAllocationStatus(CafeOwner.AllocationStatus.REJECTED);
         }
 
         cafeOwnerRepository.save(cafeOwner);
+    }
+
+    @Transactional
+    public void deleteCafeOwner(Long cafeId) {
+        CafeOwner cafeOwner = cafeOwnerRepository.findByCafeId(cafeId).orElseThrow(() -> new BusinessException(BusinessError.CAFE_OWNER_NOT_FOUND));
+        cafeOwnerRepository.delete(cafeOwner);
+        memberService.cancelCaffeOwner(cafeOwner.getOwnerId());
     }
 
     public List<CafeOwner> getCafeOwnerRequests() {
