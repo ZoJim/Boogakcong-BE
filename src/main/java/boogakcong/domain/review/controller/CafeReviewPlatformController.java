@@ -3,6 +3,7 @@ package boogakcong.domain.review.controller;
 import boogakcong.domain.review.dto.request.CreateReviewRequest;
 import boogakcong.domain.review.dto.request.UpdateReviewRequest;
 import boogakcong.domain.review.dto.response.ReviewResponse;
+import boogakcong.domain.review.entity.Review;
 import boogakcong.domain.review.service.CafeReviewPlatformService;
 import boogakcong.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -68,4 +69,14 @@ public class CafeReviewPlatformController {
         List<ReviewResponse> myReview = cafeReviewPlatformService.getMyReview(userDetails.getUserId());
         return ResponseEntity.ok(myReview);
     }
+
+    @GetMapping("/all")
+    @Secured({"ROLE_COMMUNITY_MANAGER", "ROLE_ADMIN"})
+    public ResponseEntity<?> getAllReview(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        List<Review> allReview = cafeReviewPlatformService.getAllReview();
+        return ResponseEntity.ok(allReview);
+    }
+
 }

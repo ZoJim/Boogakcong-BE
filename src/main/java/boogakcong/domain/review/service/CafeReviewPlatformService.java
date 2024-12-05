@@ -66,4 +66,10 @@ public class CafeReviewPlatformService {
                 .toList();
 
     }
+
+    public List<Review> getAllReview() {
+        return cafeReviewService.getAllReview()
+                .stream()
+                .toList();
+    }
 }
