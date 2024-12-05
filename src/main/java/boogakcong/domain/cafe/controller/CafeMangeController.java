@@ -30,13 +30,13 @@ public class CafeMangeController {
 
 
     @Comment("카페 정보 수정 API")
-    @PostMapping("/update")
+    @PostMapping("/owners/update")
     @Secured("ROLE_CAFE_OWNER")
     public ResponseEntity<?> updateCafe(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody UpdateCafeRequest request
     ) {
-        cafeManageService.updateCafe(userDetails.getUserId(),request);
+        cafeManageService.updateCafe(userDetails.getUserId(), request);
         return ResponseEntity.ok().build();
     }
 }
