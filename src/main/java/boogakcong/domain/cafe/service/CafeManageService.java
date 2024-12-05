@@ -20,6 +20,7 @@ import java.util.List;
 public class CafeManageService {
     private final KakaoMapService kakaoMapService;
     private final CafeService cafeService;
+    private final CafeOwnerService cafeOwnerService;
     private final CafeNotificationService cafeNotificationService;
     private static final String PUSAN_UNIV_X = "129.0864402";
     private static final String PUSAN_UNIV_Y = "35.2314337";
@@ -48,7 +49,8 @@ public class CafeManageService {
     }
 
     public void updateCafe(Long userId, UpdateCafeRequest request) {
-        Cafe cafe = cafeService.getCafeByOwnerId(userId);
+        CafeOwner cafeOwner = cafeOwnerService.findByOwnerId(userId);
+        Cafe cafe = cafeService.getCafeById(cafeOwner.getCafeId());
         cafe.update(request);
         cafeService.save(cafe);
         cafeNotificationService.updateNotification(new NotificationRequest(cafe.getId(), request.notice()));

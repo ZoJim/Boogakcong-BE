@@ -17,16 +17,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CafeService {
     private final CafeRepository cafeRepository;
-    private final CafeOwnerService cafeOwnerService;
 
     public Cafe getCafeById(Long cafeId) {
         return cafeRepository.findById(cafeId)
                 .orElseThrow(() -> new BusinessException(BusinessError.CAFE_NOT_FOUND));
-    }
-
-    public Cafe getCafeByOwnerId(Long ownerId) {
-        CafeOwner byOwnerId = cafeOwnerService.findByOwnerId(ownerId);
-        return getCafeById(byOwnerId.getCafeId());
     }
 
     public List<Cafe> getCafeList() {
