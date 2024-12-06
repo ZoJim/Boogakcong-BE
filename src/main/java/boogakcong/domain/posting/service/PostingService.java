@@ -31,8 +31,8 @@ public class PostingService {
         return postingRepository.save(post);
     }
 
-    public List<Posting> getPostings(Posting.PostType postType) {
-        return postingRepository.findAllByPostTypeOrderByCreatedAtDesc(postType);
+    public List<Posting> getPostings() {
+        return postingRepository.findAllByOrderByCreatedAtDesc();
     }
 
     public List<Posting> getMyPostings(Long userId, Posting.PostType postType) {

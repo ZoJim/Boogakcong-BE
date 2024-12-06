@@ -43,9 +43,9 @@ public class PostingPlatformService {
                 .build();
     }
 
-    public List<PostingResponse> getPostings(Posting.PostType postType) {
+    public List<PostingResponse> getPostings() {
         // posttype에 따라서 최슨 순서로 가져오기
-        List<PostingResponse> postings = postingService.getPostings(postType)
+        List<PostingResponse> postings = postingService.getPostings()
                 .stream()
                 .map(post -> PostingResponse.builder()
                         .id(post.getId())

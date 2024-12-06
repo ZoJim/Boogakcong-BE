@@ -17,10 +17,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtTokenProvider jwtTokenProvider) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+                .cors(c -> {
+                })
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // /admin/** 경로는 ADMIN 권한 필요
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/cafes/owners/**").hasAnyRole("CAFE_OWNER", "COMMUNITY_MANAGER", "ADMIN", "NORMAL_USER")
-                        .anyRequest().permitAll() // 그 외 모든 요청은 허용
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 

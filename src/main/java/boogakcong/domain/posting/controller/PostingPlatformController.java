@@ -31,8 +31,8 @@ public class PostingPlatformController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getPostings(@RequestParam("postType") Posting.PostType postType) {
-        return ResponseEntity.ok(postingPlatformService.getPostings(postType));
+    public ResponseEntity<?> getPostings() {
+        return ResponseEntity.ok(postingPlatformService.getPostings());
     }
 
     @GetMapping("/my")
