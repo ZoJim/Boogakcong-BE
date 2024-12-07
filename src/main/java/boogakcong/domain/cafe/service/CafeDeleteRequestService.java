@@ -67,7 +67,26 @@ public class CafeDeleteRequestService {
                 .orElseThrow(() -> new BusinessException(BusinessError.CAFE_DELETE_REQUEST_NOT_FOUND));
     }
 
-    public List<CafeDeleteRequest> getCafeDeleteRequests(Pageable pageable) {
-        return cafeDeleteRequestRepository.findAll(pageable).getContent();
+    public List<CafeDeleteRequestResponse> getCafeDeleteRequests() {
+        List<CafeDeleteRequest> all = cafeDeleteRequestRepository.findAll();
+        return all.stream()
+                .map(CafeDeleteRequestResponse::from)
+                .toList();
+    }
+
+    public record CafeDeleteRequestResponse(
+            Long id,
+            Long cafeId,
+            CafeDeleteRequest.RequestStatus requestStatus,
+            CafeDeleteRequest.DeleteReason deleteReason
+    ) {
+        public static CafeDeleteRequestResponse from(CafeDeleteRequest request) {
+            return new CafeDeleteRequestResponse(
+                    request.getId(),
+                    request.getCafeId(),
+                    request.getRequestStatus(),
+                    request.getDeleteReason()
+            );
+        }
     }
 }

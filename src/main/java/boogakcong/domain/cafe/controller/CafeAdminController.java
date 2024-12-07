@@ -46,10 +46,9 @@ public class CafeAdminController {
     @GetMapping("/owners/delete")
     @Secured({"ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
     public ResponseEntity<?> getCafeDeleteRequests(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @PageableDefault(size = 10) Pageable pageable
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        return ResponseEntity.ok(cafeDeleteRequestService.getCafeDeleteRequests(pageable));
+        return ResponseEntity.ok(cafeDeleteRequestService.getCafeDeleteRequests());
     }
 
 
