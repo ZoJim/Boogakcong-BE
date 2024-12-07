@@ -13,6 +13,9 @@ import boogakcong.global.util.KakaoMapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -56,5 +59,31 @@ public class CafeManageService {
         cafe.update(request);
         cafeService.save(cafe);
         cafeNotificationService.updateNotification(new NotificationRequest(cafe.getId(), request.notice()));
+    }
+
+    public List<CafeResponse> getCafeCount() {
+        // 최근 7일간 등록된 카페 수
+        List<Long> newCafeCountPerDay = cafeService.getNewCafeCountPerDay(LocalDateTime.now().minusDays(7));
+
+        // 전체 카페 수
+        Long totalCafeCount = cafeService.getTotalCafeCount();
+
+        List<CafeResponse> cafeResponses = new ArrayList<>();
+        long cumulativeCafeCount = totalCafeCount;
+
+        // 하루별로 등록된 카페 수와 그날의 전체 카페 수를 계산
+        for (Long newCafeCount : newCafeCountPerDay) {
+            // 그날 등록된 카페 수만큼 전체 카페 수 누적
+            cumulativeCafeCount -= newCafeCount;
+            cafeResponses.add(new CafeResponse(newCafeCount, cumulativeCafeCount));
+        }
+
+        return cafeResponses;
+    }
+
+    public record CafeResponse(
+            Long newCafeCount,
+            Long totalCafeCount
+    ) {
     }
 }

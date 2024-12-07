@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,4 +22,12 @@ public interface CafeRepository extends JpaRepository<Cafe, Long> {
     List<Cafe> findAllByRoadAddressAndName(@Param("roadAddresses") List<String> roadAddresses,
                                            @Param("names") List<String> names);
 
+
+//    @Query("SELECT COUNT(c) FROM Cafe c WHERE c.createdAt >= :startDate AND c.createdAt < :endDate GROUP BY FUNCTION('DATE', c.createdAt)")
+//    List<Long> countNewCafesPerDay(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+    // CafeRepository.java
+    // CafeRepository.java
+    @Query("SELECT COUNT(c) FROM Cafe c WHERE c.createdAt >= :startDate AND c.createdAt < :endDate GROUP BY FUNCTION('DATE', c.createdAt)")
+    List<Long> countNewCafesPerDay(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 }

@@ -52,4 +52,10 @@ public class CafeAdminController {
     }
 
 
+    @Comment("카페 개수 조회")
+    @GetMapping("/analysis")
+    @Secured({"ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
+    public ResponseEntity<?> getCafeCount() {
+        return ResponseEntity.ok(cafeManageService.getCafeCount());
+    }
 }

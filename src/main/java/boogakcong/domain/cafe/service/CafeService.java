@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -73,5 +75,14 @@ public class CafeService {
 
     public List<Cafe> getCafeListByIds(List<Long> list) {
         return cafeRepository.findAllById(list);
+    }
+
+    public List<Long> getNewCafeCountPerDay(LocalDateTime startDate) {
+        LocalDateTime endDate = startDate.plusDays(7);  // endDate는 startDate의 다음 날로 설정
+        return cafeRepository.countNewCafesPerDay(startDate, endDate);
+    }
+
+    public Long getTotalCafeCount() {
+        return cafeRepository.count();
     }
 }

@@ -74,6 +74,25 @@ public class MemberService {
         memberRepository.deleteById(id);
     }
 
+    public MemberAnalysisResponse getMemberAnalysis() {
+        return new MemberAnalysisResponse(
+                memberRepository.count(),
+                memberRepository.countByRole(MemberRole.ROLE_CAFE_OWNER),
+                memberRepository.countByRole(MemberRole.ROLE_COMMUNITY_MANAGER),
+                memberRepository.countByRole(MemberRole.ROLE_NORMAL_USER),
+                memberRepository.countByRole(MemberRole.ROLE_ADMIN)
+        );
+    }
+
+    public record MemberAnalysisResponse(
+            Long totalMemberCount,
+            Long cafeOwnerCount,
+            Long communityManagerCount,
+            Long normalUserCount,
+            Long adminCount
+    ) {
+    }
+
     public record MyInfoResponse(
             Long id,
             String email,

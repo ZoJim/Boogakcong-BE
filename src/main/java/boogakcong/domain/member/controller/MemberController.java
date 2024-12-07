@@ -42,4 +42,12 @@ public class MemberController {
         memberService.deleteMember(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/analysis")
+    @Secured({"ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
+    public ResponseEntity<?> getMemberAnalysis(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        return ResponseEntity.ok(memberService.getMemberAnalysis());
+    }
 }
