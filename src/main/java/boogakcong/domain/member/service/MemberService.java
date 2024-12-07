@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -61,6 +63,15 @@ public class MemberService {
     public MyInfoResponse getMyInfo(UserDetailsImpl userDetails) {
         Member member = getMemberById(userDetails.getUserId());
         return MyInfoResponse.from(member);
+    }
+
+    public List<Member> getMemberList() {
+        return memberRepository.findAll();
+    }
+
+    @Transactional
+    public void deleteMember(Long id) {
+        memberRepository.deleteById(id);
     }
 
     public record MyInfoResponse(
