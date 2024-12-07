@@ -62,7 +62,7 @@ public class CafeReviewPlatformController {
     }
 
     @GetMapping("/my")
-    @Secured({"ROLE_NORMAL_USER", "ROLE_ADMIN"})
+    @Secured({"ROLE_NORMAL_USER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER", "ROLE_CAFE_OWNER"})
     public ResponseEntity<List<ReviewResponse>> getMyReview(
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {

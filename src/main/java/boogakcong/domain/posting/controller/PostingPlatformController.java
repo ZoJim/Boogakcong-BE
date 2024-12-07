@@ -2,10 +2,8 @@ package boogakcong.domain.posting.controller;
 
 import boogakcong.domain.posting.dto.request.CreatePostingRequest;
 import boogakcong.domain.posting.dto.response.PostingResponse;
-import boogakcong.domain.posting.entity.Posting;
 import boogakcong.domain.posting.service.PostingPlatformService;
 import boogakcong.global.security.UserDetailsImpl;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;

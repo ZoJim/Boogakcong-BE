@@ -38,4 +38,9 @@ public class Posting {
     public enum PostType {
         RECRUITMENT, REVIEW
     }
+
+    @PostLoad
+    public void incrementViewCount() {
+        this.viewCount++;
+    }
 }

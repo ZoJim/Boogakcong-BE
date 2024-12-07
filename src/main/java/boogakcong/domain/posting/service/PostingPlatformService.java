@@ -26,6 +26,7 @@ public class PostingPlatformService {
         Posting post = postingService.post(
                 Posting.builder()
                         .userId(userId)
+                        .viewCount(0L)
                         .title(request.title())
                         .content(request.content())
                         .imageUrl(fileUrl)
@@ -108,6 +109,7 @@ public class PostingPlatformService {
                         .title(request.title())
                         .content(request.content())
                         .postType(request.postType())
+                        .viewCount(postingService.getPosting(postingId).getViewCount())
                         .createdAt(postingService.getPosting(postingId).getCreatedAt())
                         .imageUrl(postingService.getPosting(postingId).getImageUrl())
                         .build()

@@ -21,7 +21,7 @@ public class MemberController {
 
     @GetMapping("/me")
     @Secured({"ROLE_NORMAL_USER", "ROLE_ADMIN", "ROLE_CAFE_OWNER", "ROLE_COMMUNITY_MANAGER"})
-    public ResponseEntity<?> getMyInfo(
+    public ResponseEntity<MemberService.MyInfoResponse> getMyInfo(
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         return ResponseEntity.ok(memberService.getMyInfo(userDetails));

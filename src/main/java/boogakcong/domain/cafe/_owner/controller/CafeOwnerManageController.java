@@ -2,8 +2,6 @@ package boogakcong.domain.cafe._owner.controller;
 
 import boogakcong.domain.cafe._owner.entity.CafeOwner;
 import boogakcong.domain.cafe._owner.service.CafeOwnerService;
-import boogakcong.domain.cafe.dto.request.UpdateCafeRequest;
-import boogakcong.domain.cafe.service.CafeManageService;
 import boogakcong.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Comment;
@@ -22,7 +20,7 @@ public class CafeOwnerManageController {
 
 
     @Comment("카페 소유자 신청")
-    @Secured({"ROLE_NORMAL_USER"})
+    @Secured({"ROLE_NORMAL_USER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
     @PostMapping("/request")
     public ResponseEntity<?> requestCafeOwner(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -33,6 +31,17 @@ public class CafeOwnerManageController {
                 cafeId
         );
         return ResponseEntity.ok().build();
+    }
+
+    @Comment("회원이 카페 소유자인지 확인")
+    @Secured({"ROLE_NORMAL_USER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER", "ROLE_CAFE_OWNER"})
+    @GetMapping("/check")
+    public ResponseEntity<CafeOwner> checkCafeOwner(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        return ResponseEntity.ok(cafeOwnerService.checkCafeOwner(
+                userDetails.getUserId()
+        ));
     }
 
     @Comment("카페 소유자 신청 조회")

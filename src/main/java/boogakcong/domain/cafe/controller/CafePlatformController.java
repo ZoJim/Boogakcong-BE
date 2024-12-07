@@ -21,8 +21,8 @@ public class CafePlatformController {
 
     @Comment("카페 목록을 조회하는 메소드")
     @GetMapping
-    public ResponseEntity<List<CafeSimpleResponse>> getCafeList(@PageableDefault(size = 10) Pageable pageable) {
-        return ResponseEntity.ok(cafePlatformService.getCafeList(pageable));
+    public ResponseEntity<List<CafeSimpleResponse>> getCafeList() {
+        return ResponseEntity.ok(cafePlatformService.getCafeList());
     }
 
 

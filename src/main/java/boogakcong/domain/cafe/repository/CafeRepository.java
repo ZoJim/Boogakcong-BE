@@ -19,4 +19,5 @@ public interface CafeRepository extends JpaRepository<Cafe, Long> {
     @Query("SELECT c FROM Cafe c WHERE c.roadAddress IN :roadAddresses AND c.name IN :names")
     List<Cafe> findAllByRoadAddressAndName(@Param("roadAddresses") List<String> roadAddresses,
                                            @Param("names") List<String> names);
+
 }

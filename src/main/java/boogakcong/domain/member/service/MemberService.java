@@ -1,5 +1,9 @@
 package boogakcong.domain.member.service;
 
+import boogakcong.domain.cafe._owner.entity.CafeOwner;
+import boogakcong.domain.cafe._owner.service.CafeOwnerService;
+import boogakcong.domain.cafe.entity.Cafe;
+import boogakcong.domain.cafe.service.CafeService;
 import boogakcong.domain.member.MemberRole;
 import boogakcong.domain.member.entity.Member;
 import boogakcong.domain.member.repository.MemberRepository;
@@ -15,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class MemberService {
     private final MemberRepository memberRepository;
+
 
     public Member getMemberById(Long id) {
         return memberRepository.findById(id).orElseThrow(() -> new BusinessException(BusinessError.MEMBER_NOT_FOUND));

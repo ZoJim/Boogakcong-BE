@@ -22,8 +22,8 @@ public class CafePlatformService {
     private final CafeNotificationService cafeNotificationService;
     private final CafeReviewPlatformService cafeReviewPlatformService;
 
-    public List<CafeSimpleResponse> getCafeList(Pageable pageable) {
-        return cafeService.getCafeList(pageable)
+    public List<CafeSimpleResponse> getCafeList() {
+        return cafeService.getCafeList()
                 .stream()
                 .map(CafeSimpleResponse::fromEntity)
                 .toList();

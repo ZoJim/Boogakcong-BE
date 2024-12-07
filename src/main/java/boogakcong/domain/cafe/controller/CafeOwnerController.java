@@ -21,7 +21,7 @@ public class CafeOwnerController {
     private final CafeManageService cafeManageService;
 
     @Comment("카페 삭제 요청")
-    @Secured("ROLE_CAFE_OWNER")
+    @Secured({"ROLE_CAFE_OWNER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER", "ROLE_NORMAL_USER"})
     @DeleteMapping("/request")
     public ResponseEntity<?> deleteCafeRequest(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -33,7 +33,7 @@ public class CafeOwnerController {
 
     @Comment("카페 정보 수정 API")
     @PostMapping("/update")
-    @Secured("ROLE_CAFE_OWNER")
+    @Secured({"ROLE_CAFE_OWNER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
     public ResponseEntity<?> updateCafe(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody UpdateCafeRequest request

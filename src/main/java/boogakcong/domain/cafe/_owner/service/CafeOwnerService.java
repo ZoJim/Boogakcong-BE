@@ -90,4 +90,12 @@ public class CafeOwnerService {
     public CafeOwner findById(Long cafeId) {
         return cafeOwnerRepository.findById(cafeId).orElseThrow(() -> new BusinessException(BusinessError.CAFE_OWNER_REQUEST_NOT_FOUND));
     }
+
+    public CafeOwner getCafeOwnerByOwnerId(Long id) {
+        return cafeOwnerRepository.findByOwnerId(id).orElse(null);
+    }
+
+    public CafeOwner checkCafeOwner(Long userId) {
+        return cafeOwnerRepository.findByOwnerId(userId).orElse(null);
+    }
 }
