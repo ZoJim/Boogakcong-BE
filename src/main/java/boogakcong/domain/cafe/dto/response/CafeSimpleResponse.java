@@ -9,6 +9,7 @@ public record CafeSimpleResponse(
         String name,
         String address,
         String phoneNumber,
+        Integer timeFromMainGate,
         String placeUrl
 
         // FIXME: 카페 사진 필요할지도..?
@@ -19,6 +20,7 @@ public record CafeSimpleResponse(
                 .name(cafe.getName())
                 .address(cafe.getRoadAddress() + " " + cafe.getAddressDetail())
                 .phoneNumber(cafe.getPhoneNumber())
+                .timeFromMainGate(cafe.getTimeFromMainGate())
                 .placeUrl(cafe.getPlaceUrl())
                 .build();
     }

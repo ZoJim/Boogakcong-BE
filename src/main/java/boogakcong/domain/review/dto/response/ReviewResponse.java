@@ -9,13 +9,15 @@ import java.time.LocalDateTime;
 public record ReviewResponse(
         Long id,
         Long cafeId,
+        String cafeName,
         String content,
         LocalDateTime createdAt
 ) {
-    public static ReviewResponse fromEntity(Review review) {
+    public static ReviewResponse fromEntity(Review review, String cafeName) {
         return new ReviewResponse(
                 review.getId(),
                 review.getCafeId(),
+                cafeName,
                 review.getContent(),
                 review.getCreatedAt()
         );

@@ -13,6 +13,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/postings")
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class PostingPlatformController {
     private final PostingPlatformService postingPlatformService;
 
     @PostMapping
-    @Secured({"ROLE_USER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER", "ROLE_CAFE_OWNER"})
+    @Secured({"ROLE_NORMAL_USER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER", "ROLE_CAFE_OWNER"})
     public ResponseEntity<?> createPosting(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @ModelAttribute CreatePostingRequest request, // @ModelAttribute로 변경
@@ -31,17 +33,23 @@ public class PostingPlatformController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getPostings() {
+    public ResponseEntity<List<PostingResponse>> getPostings() {
         return ResponseEntity.ok(postingPlatformService.getPostings());
     }
 
+
+    @GetMapping("/top")
+    public ResponseEntity<PostingResponse> getPopularPostings() {
+        return ResponseEntity.ok(postingPlatformService.getPopularPostings());
+    }
+
+
     @GetMapping("/my")
-    @Secured({"ROLE_USER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER", "ROLE_CAFE_OWNER"})
+    @Secured({"ROLE_NORMAL_USER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER", "ROLE_CAFE_OWNER"})
     public ResponseEntity<?> getMyPostings(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestParam("postType") Posting.PostType postType
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        return ResponseEntity.ok(postingPlatformService.getMyPostings(userDetails.getUserId(), postType));
+        return ResponseEntity.ok(postingPlatformService.getMyPostings(userDetails.getUserId()));
     }
 
     @GetMapping("/{postingId}")
@@ -50,19 +58,19 @@ public class PostingPlatformController {
     }
 
     @PatchMapping("/{postingId}")
-    @Secured({"ROLE_USER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER", "ROLE_CAFE_OWNER"})
+    @Secured({"ROLE_NORMAL_USER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER", "ROLE_CAFE_OWNER"})
     public ResponseEntity<?> updatePosting(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @PathVariable(name = "postingId") Long postingId,
             @ModelAttribute CreatePostingRequest request, // @ModelAttribute로 변경
-            @RequestParam("file") MultipartFile file
+            @RequestParam(value = "file", required = false) MultipartFile file // required=false로 변경
     ) {
         PostingResponse post = postingPlatformService.update(userDetails.getUserId(), postingId, request, file);
         return ResponseEntity.ok(post);
     }
 
     @DeleteMapping("/{postingId}")
-    @Secured({"ROLE_USER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER", "ROLE_CAFE_OWNER"})
+    @Secured({"ROLE_NORMAL_USER", "ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER", "ROLE_CAFE_OWNER"})
     public ResponseEntity<?> deletePosting(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @PathVariable(name = "postingId") Long postingId

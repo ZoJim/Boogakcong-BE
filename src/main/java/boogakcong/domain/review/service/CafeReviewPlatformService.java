@@ -60,11 +60,26 @@ public class CafeReviewPlatformService {
     }
 
     public List<ReviewResponse> getMyReview(Long userId) {
-        return cafeReviewService.getMyReview(userId)
+        List<Review> list = cafeReviewService.getMyReview(userId)
                 .stream()
-                .map(ReviewResponse::fromEntity)
                 .toList();
 
+        List<Cafe> cafes = cafeService.getCafeListByIds(
+                list.stream()
+                        .map(Review::getCafeId)
+                        .toList()
+        );
+
+        return list.stream()
+                .map(review -> {
+                    Cafe cafe = cafes.stream()
+                            .filter(c -> c.getId().equals(review.getCafeId()))
+                            .findFirst()
+                            .orElseThrow(() -> new BusinessException(BusinessError.CAFE_NOT_FOUND));
+
+                    return ReviewResponse.fromEntity(review, cafe.getName());
+                })
+                .toList();
     }
 
     public List<Review> getAllReview() {
@@ -74,9 +89,14 @@ public class CafeReviewPlatformService {
     }
 
     public List<ReviewResponse> getReviewListByCafeId(Long cafeId) {
-        return cafeReviewService.getReviewListByCafeId(cafeId)
+        List<Review> list = cafeReviewService.getReviewListByCafeId(cafeId)
                 .stream()
-                .map(ReviewResponse::fromEntity)
+                .toList();
+
+        Cafe cafe = cafeService.getCafeById(cafeId);
+
+        return list.stream()
+                .map(review -> ReviewResponse.fromEntity(review, cafe.getName()))
                 .toList();
     }
 }

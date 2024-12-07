@@ -62,9 +62,9 @@ public class PostingPlatformService {
         return postings;
     }
 
-    public List<PostingResponse> getMyPostings(Long userId, Posting.PostType postType) {
+    public List<PostingResponse> getMyPostings(Long userId) {
         // userId와 posttype에 따라서 최신 순서로 가져오기
-        List<PostingResponse> postings = postingService.getMyPostings(userId, postType)
+        List<PostingResponse> postings = postingService.getMyPostings(userId)
                 .stream()
                 .map(post -> PostingResponse.builder()
                         .id(post.getId())
@@ -109,6 +109,7 @@ public class PostingPlatformService {
                         .content(request.content())
                         .postType(request.postType())
                         .createdAt(postingService.getPosting(postingId).getCreatedAt())
+                        .imageUrl(postingService.getPosting(postingId).getImageUrl())
                         .build()
         );
 
@@ -150,5 +151,18 @@ public class PostingPlatformService {
         }
 
         postingService.delete(postingId);
+    }
+
+    public PostingResponse getPopularPostings() {
+        Posting popularPosting = postingService.getPopularPosting();
+        return PostingResponse.builder()
+                .id(popularPosting.getId())
+                .userId(popularPosting.getUserId())
+                .title(popularPosting.getTitle())
+                .content(popularPosting.getContent())
+                .imageUrl(popularPosting.getImageUrl())
+                .postType(popularPosting.getPostType())
+                .createdAt(popularPosting.getCreatedAt())
+                .build();
     }
 }

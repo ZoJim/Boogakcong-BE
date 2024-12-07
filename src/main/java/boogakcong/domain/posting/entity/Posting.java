@@ -30,6 +30,7 @@ public class Posting {
     private String content;
     private Long userId;
     private String imageUrl;
+    private Long viewCount;
     @CreationTimestamp
     private LocalDateTime createdAt;
     private LocalDateTime deletedAt;

@@ -70,4 +70,8 @@ public class CafeService {
     public void deleteCafe(Long cafeId) {
         cafeRepository.deleteById(cafeId);
     }
+
+    public List<Cafe> getCafeListByIds(List<Long> list) {
+        return cafeRepository.findAllById(list);
+    }
 }

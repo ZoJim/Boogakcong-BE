@@ -22,9 +22,9 @@ public class CafeManageService {
     private final CafeService cafeService;
     private final CafeOwnerService cafeOwnerService;
     private final CafeNotificationService cafeNotificationService;
-    private static final String PUSAN_UNIV_X = "129.0864402";
-    private static final String PUSAN_UNIV_Y = "35.2314337";
-    private static final String SEARCH_RADIUS = "1000";
+    private static final String PUSAN_UNIV_X = "129.081035";
+    private static final String PUSAN_UNIV_Y = "35.233519";
+    private static final String SEARCH_RADIUS = "1200";
 
     public void registerCafeByKakao() {
         // 1. 카카오 API로부터 카페 목록 가져오기
@@ -43,6 +43,8 @@ public class CafeManageService {
                     .phoneNumber(response.phone())
                     .addressDetail(response.address_name())
                     .placeUrl(response.place_url())
+                    .timeFromMainGate(kakaoMapService.getWalkingTime("\n" +
+                            PUSAN_UNIV_X, PUSAN_UNIV_Y, response.x(), response.y()))
                     .build();
             cafeService.save(cafe);
         });

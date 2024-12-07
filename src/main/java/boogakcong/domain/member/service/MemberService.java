@@ -1,9 +1,11 @@
 package boogakcong.domain.member.service;
 
+import boogakcong.domain.member.MemberRole;
 import boogakcong.domain.member.entity.Member;
 import boogakcong.domain.member.repository.MemberRepository;
 import boogakcong.global.exception.BusinessError;
 import boogakcong.global.exception.BusinessException;
+import boogakcong.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,5 +51,26 @@ public class MemberService {
         Member member = getMemberById(ownerId);
         member.cancelCafeOwner();
         memberRepository.save(member);
+    }
+
+    public MyInfoResponse getMyInfo(UserDetailsImpl userDetails) {
+        Member member = getMemberById(userDetails.getUserId());
+        return MyInfoResponse.from(member);
+    }
+
+    public record MyInfoResponse(
+            Long id,
+            String email,
+            String name,
+            MemberRole role
+    ) {
+        public static MyInfoResponse from(Member member) {
+            return new MyInfoResponse(
+                    member.getId(),
+                    member.getEmail(),
+                    member.getName(),
+                    member.getRole()
+            );
+        }
     }
 }

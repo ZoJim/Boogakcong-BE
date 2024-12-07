@@ -22,7 +22,7 @@ public class CafeReviewPlatformController {
     private final CafeReviewPlatformService cafeReviewPlatformService;
 
     @PostMapping
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @Secured({"ROLE_NORMAL_USER", "ROLE_ADMIN"})
     public ResponseEntity<?> createReview(
             @Validated @RequestBody CreateReviewRequest request,
             @AuthenticationPrincipal UserDetailsImpl userDetails
@@ -35,7 +35,7 @@ public class CafeReviewPlatformController {
     }
 
     @PatchMapping
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @Secured({"ROLE_NORMAL_USER", "ROLE_ADMIN"})
     public ResponseEntity<?> updateReview(
             @Validated @RequestBody UpdateReviewRequest request,
             @AuthenticationPrincipal UserDetailsImpl userDetails
@@ -49,7 +49,7 @@ public class CafeReviewPlatformController {
     }
 
     @DeleteMapping("/{reviewId}")
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @Secured({"ROLE_NORMAL_USER", "ROLE_ADMIN"})
     public ResponseEntity<?> deleteReview(
             @PathVariable(name = "reviewId") Long reviewId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
@@ -62,8 +62,8 @@ public class CafeReviewPlatformController {
     }
 
     @GetMapping("/my")
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    public ResponseEntity<?> getMyReview(
+    @Secured({"ROLE_NORMAL_USER", "ROLE_ADMIN"})
+    public ResponseEntity<List<ReviewResponse>> getMyReview(
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         List<ReviewResponse> myReview = cafeReviewPlatformService.getMyReview(userDetails.getUserId());

@@ -3,6 +3,7 @@ package boogakcong.domain.posting.service;
 import boogakcong.domain.posting.entity.Posting;
 import boogakcong.domain.posting.repository.PostingRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.SQLSelect;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import boogakcong.global.exception.BusinessError;
@@ -13,6 +14,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@SQLSelect(sql = "UPDATE posting SET view_count = view_count + 1 WHERE id = ?")
 public class PostingService {
     private final PostingRepository postingRepository;
 
@@ -35,13 +37,17 @@ public class PostingService {
         return postingRepository.findAllByOrderByCreatedAtDesc();
     }
 
-    public List<Posting> getMyPostings(Long userId, Posting.PostType postType) {
-        return postingRepository.findAllByUserIdAndPostTypeOrderByCreatedAtDesc(userId, postType);
+    public List<Posting> getMyPostings(Long userId) {
+        return postingRepository.findAllByUserIdOrderByCreatedAtDesc(userId);
     }
 
     public Posting getPosting(Long postingId) {
         return postingRepository.findById(postingId).orElseThrow(
                 () -> new BusinessException(BusinessError.POSTING_NOT_FOUND)
         );
+    }
+
+    public Posting getPopularPosting() {
+        return postingRepository.findTopByOrderByViewCountDesc();
     }
 }

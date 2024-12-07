@@ -48,6 +48,9 @@ public class Cafe {
     @Column(nullable = false)
     private Double longitude;
 
+    @Comment("정문에서 걸리는 시간")
+    private Integer timeFromMainGate;
+
     @Comment("카페 소개 URL")
     @Column(nullable = false)
     private String placeUrl;
