@@ -77,4 +77,12 @@ public class PostingPlatformController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/analysis")
+    @Secured({"ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
+    public ResponseEntity<?> getPostingAnalysis(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        return ResponseEntity.ok(postingPlatformService.getPostingAnalysis());
+    }
+
 }

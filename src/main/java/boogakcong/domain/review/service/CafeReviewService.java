@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -59,5 +60,9 @@ public class CafeReviewService {
 
     public List<Review> getReviewListByCafeId(Long cafeId) {
         return reviewRepository.findByCafeId(cafeId);
+    }
+
+    public List<Long> getNewReviewsPerDay(LocalDateTime startDate, LocalDateTime endDate) {
+        return reviewRepository.countNewReviewsPerDay(startDate, endDate);
     }
 }

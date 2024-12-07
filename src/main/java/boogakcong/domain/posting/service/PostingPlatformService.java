@@ -3,6 +3,7 @@ package boogakcong.domain.posting.service;
 import boogakcong.domain.posting.dto.request.CreatePostingRequest;
 import boogakcong.domain.posting.dto.response.PostingResponse;
 import boogakcong.domain.posting.entity.Posting;
+import boogakcong.domain.review.service.CafeReviewService;
 import boogakcong.global.aws.S3Service;
 import boogakcong.global.exception.BusinessError;
 import boogakcong.global.exception.BusinessException;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +21,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class PostingPlatformService {
     private final PostingService postingService;
+    private final CafeReviewService cafeReviewService;
     private final S3Service s3Service;
 
     @Transactional
@@ -166,5 +170,34 @@ public class PostingPlatformService {
                 .postType(popularPosting.getPostType())
                 .createdAt(popularPosting.getCreatedAt())
                 .build();
+    }
+
+    public List<PostAnalysis> getPostingAnalysis() {
+        // 7일간의 새로운 포스트 수와 리뷰 수
+        LocalDateTime startDate = LocalDateTime.now().minusDays(7);
+        LocalDateTime endDate = LocalDateTime.now();
+
+        // getNewReviewsPerDay와 getNewPostsPerDay 메서드는 7일간의 데이터를 반환한다고 가정
+        List<Long> newReviewsPerDay = cafeReviewService.getNewReviewsPerDay(startDate, endDate);
+        List<Long> newPostsPerDay = postingService.getNewPostsPerDay(startDate, endDate);
+
+        List<PostAnalysis> postAnalyses = new ArrayList<>();
+
+        // 반복문에서 각 리스트의 크기를 확인한 후, 최대 7일만큼 데이터 처리
+        for (int i = 0; i < 7; i++) {
+            long newPostCount = (i < newPostsPerDay.size()) ? newPostsPerDay.get(i) : 0; // 데이터가 없으면 0으로 처리
+            long newReviewCount = (i < newReviewsPerDay.size()) ? newReviewsPerDay.get(i) : 0; // 데이터가 없으면 0으로 처리
+
+            postAnalyses.add(new PostAnalysis(newPostCount, newReviewCount));
+        }
+
+        return postAnalyses;
+    }
+
+    public record PostAnalysis(
+            Long newPostCount,
+            Long newReviewCount
+    ) {
+
     }
 }

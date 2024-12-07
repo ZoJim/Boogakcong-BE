@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import boogakcong.global.exception.BusinessError;
 import boogakcong.global.exception.BusinessException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -49,5 +50,9 @@ public class PostingService {
 
     public Posting getPopularPosting() {
         return postingRepository.findTopByOrderByViewCountDesc();
+    }
+
+    public List<Long> getNewPostsPerDay(LocalDateTime startDate, LocalDateTime endDate) {
+        return postingRepository.findNewPostsPerDay(startDate, endDate);
     }
 }
