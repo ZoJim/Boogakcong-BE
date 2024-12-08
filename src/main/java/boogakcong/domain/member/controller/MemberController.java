@@ -1,5 +1,6 @@
 package boogakcong.domain.member.controller;
 
+import boogakcong.domain.member.MemberRole;
 import boogakcong.domain.member.entity.Member;
 import boogakcong.domain.member.service.MemberService;
 import boogakcong.global.security.UserDetailsImpl;
@@ -20,6 +21,13 @@ public class MemberController {
     @GetMapping
     public ResponseEntity<?> getMember(@RequestParam(name = "id") Long id) {
         return ResponseEntity.ok(memberService.getMemberById(id));
+    }
+
+    @PatchMapping("/role")
+    @Secured({"ROLE_ADMIN", "ROLE_COMMUNITY_MANAGER"})
+    public ResponseEntity<?> getMember(@RequestParam(name = "userId") String userId, @RequestParam(name = "role") MemberRole role) {
+        memberService.modifyRole(userId, role);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/list")

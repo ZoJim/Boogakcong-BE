@@ -84,6 +84,13 @@ public class MemberService {
         );
     }
 
+    @Transactional
+    public void modifyRole(String userId, MemberRole role) {
+        Member member = getMemberById(Long.parseLong(userId));
+        member.changeRole(role);
+        memberRepository.save(member);
+    }
+
     public record MemberAnalysisResponse(
             Long totalMemberCount,
             Long cafeOwnerCount,

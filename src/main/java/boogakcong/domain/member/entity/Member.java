@@ -63,4 +63,8 @@ public class Member {
     public void cancelCafeOwner() {
         this.role = MemberRole.ROLE_NORMAL_USER;
     }
+
+    public void changeRole(MemberRole role) {
+        this.role = role;
+    }
 }
