@@ -24,3 +24,19 @@ logging:
     org:
       springframework:
         web: DEBUG
+
+jwt:
+  secret: { jwt-secret-key }
+
+kakao:
+  map:
+    api:
+      key: { kakao-map-api-key }
+
+
+aws:
+  region: ap-northeast-2  # AWS S3가 위치한 리전
+  accessKeyId: { aws-access-key-id }
+  secretKey: { aws-secret-key }
+  s3:
+    bucket: { aws-s3-bucket }
