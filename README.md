@@ -1,6 +1,5 @@
 # Boogakcong-BE
 
-## 🛠️ 기술 스택
 ### Backend
 - **Java 17** 
 - **Spring Boot v3.4.0**
@@ -10,8 +9,7 @@
 - **PostgreSQL** 
 - **AWS S3**
 
-## 🚀 프로젝트 실행 방법
-### Backend
+### How to Run
 
 `/resources/application.yml`에 키값 정보를 채우고, PostgreSQL의 host, password를 알맞게 설정합니다.
 
